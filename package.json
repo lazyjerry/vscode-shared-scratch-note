@@ -1,0 +1,79 @@
+{
+  "name": "shared-scratch-note",
+  "displayName": "Shared Scratch Note",
+  "description": "A shared Markdown scratch note in the VS Code Panel.",
+  "version": "0.0.1",
+  "publisher": "workjerry",
+  "license": "Apache-2.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lazyjerry/vscode-shared-scratch-note.git"
+  },
+  "engines": {
+    "vscode": "^1.131.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "main": "./out/src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "sharedScratchNote.open",
+        "title": "Shared Scratch Note: Open"
+      }
+    ],
+    "viewsContainers": {
+      "panel": [
+        {
+          "id": "sharedScratchNote",
+          "title": "Note",
+          "icon": "resources/note.svg"
+        }
+      ]
+    },
+    "views": {
+      "sharedScratchNote": [
+        {
+          "type": "webview",
+          "id": "sharedScratchNote.note",
+          "name": "Shared Scratch Note",
+          "visibility": "visible",
+          "icon": "resources/note.svg",
+          "contextualTitle": "Shared Scratch Note"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "npm run typecheck && npm run build:extension && npm run build:webview",
+    "build:extension": "tsc -p .",
+    "build:webview": "esbuild src/webview/main.ts --bundle --format=iife --platform=browser --target=es2022 --outfile=media/main.js",
+    "typecheck": "tsc -p . --noEmit",
+    "lint": "eslint .",
+    "test:unit": "mocha --ui tdd --timeout 10000 \"out/test/unit/**/*.test.js\"",
+    "test:integration": "node ./out/test/runTest.js",
+    "test": "npm run build && npm run test:unit && npm run test:integration",
+    "check": "npm run lint && npm test",
+    "package:vsix": "npm run check && vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^24.0.0",
+    "@types/vscode": "^1.125.0",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^3.6.0",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.0.0",
+    "glob": "^11.0.0",
+    "mocha": "^11.0.0",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.0.0"
+  }
+}
