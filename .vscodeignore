@@ -1,12 +1,16 @@
 .vscode/**
+.agents/**
 .vscode-test/**
 .gitignore
 src/**
 test/**
+scripts/**
+docs/**
 node_modules/**
 eslint.config.mjs
+CONTRIBUTING.md
 tsconfig.json
+resources/icon.svg
 *.vsix
 out/test/**
-out/src/webview/**
 out/**/*.map
