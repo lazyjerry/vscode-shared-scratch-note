@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.0.2] - 2026-08-04
+
 ### Changed
 
 - 筆記改以原生 `TextEditor` 開啟，取代 Panel 中的 Webview，使 GitHub Copilot、Claude Code 等 AI 擴充套件可直接讀寫筆記內容。
