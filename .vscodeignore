@@ -1,6 +1,8 @@
 .vscode/**
 .agents/**
 .claude/**
+CLAUDE.md
+AGENTS.md
 .vscode-test/**
 .gitignore
 src/**
