@@ -178,7 +178,8 @@ echo "    $(unzip -Z1 "$vsix" | wc -l | tr -d ' ') 個檔案，sha256=$sha256"
 echo "==> 安裝 vsix 到本機 VS Code 驗證"
 if command -v code >/dev/null 2>&1; then
   code --install-extension "$vsix" --force
-  echo "    已安裝 $vsix，請執行 Shared Scratch Note: Open 確認後再繼續。"
+  # bash 3.2.57 的 echo 會在變數展開緊接全形字元時吃掉一個位元組，改用 printf 傳參數。
+  printf '    已安裝 %s，請執行 Shared Scratch Note: Open 確認後再繼續。\n' "$vsix"
 else
   echo "    找不到 code CLI，請手動安裝 $vsix 驗證（VS Code 內執行 Shell Command: Install 'code' command in PATH）。"
 fi
@@ -216,7 +217,7 @@ while :; do
   fi
 
   if [ "$(date +%s)" -ge "$deadline" ]; then
-    echo "    逾時：Marketplace 尚未顯示 $version，或 sha256 不符（讀到 '${published:-missing}'）。" >&2
+    printf '    逾時：Marketplace 尚未顯示 %s，或 sha256 不符（讀到 %s）。\n' "$version" "'${published:-missing}'" >&2
     echo "    不要重複上傳，到管理頁查看驗證狀態。" >&2
     exit 1
   fi
