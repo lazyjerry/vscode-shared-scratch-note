@@ -50,9 +50,10 @@ if [ -n "$bump" ]; then
   versions="$(node - package.json package-lock.json CHANGELOG.md "$bump" "$release_date" <<'NODE'
 const fs = require('fs');
 const [manifestPath, lockPath, changelogPath, bump, releaseDate] = process.argv.slice(2);
+const die = (message) => { console.error(message); process.exit(1); };
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const match = String(manifest.version || '').match(/^(\d+)\.(\d+)\.(\d+)$/);
-if (!match) throw new Error(`需要穩定版 SemVer，讀到 ${manifest.version}`);
+if (!match) die(`需要穩定版 SemVer，讀到 ${manifest.version}`);
 
 const numbers = match.slice(1).map(Number);
 if (bump === 'major') { numbers[0] += 1; numbers[1] = 0; numbers[2] = 0; }
@@ -64,12 +65,12 @@ const nextVersion = numbers.join('.');
 const changelog = fs.readFileSync(changelogPath, 'utf8');
 const heading = '## [Unreleased]';
 const start = changelog.indexOf(heading);
-if (start < 0) throw new Error('CHANGELOG.md 必須包含 ## [Unreleased]');
+if (start < 0) die('CHANGELOG.md 必須包含 ## [Unreleased]');
 const notesStart = start + heading.length;
 const nextHeading = changelog.slice(notesStart).match(/\n## \[/);
 const notesEnd = nextHeading ? notesStart + nextHeading.index + 1 : changelog.length;
 const notes = changelog.slice(notesStart, notesEnd).trim();
-if (!notes) throw new Error('CHANGELOG.md 的 [Unreleased] 是空的，沒有可發布的內容');
+if (!notes) die('CHANGELOG.md 的 [Unreleased] 是空的，沒有可發布的內容');
 
 manifest.version = nextVersion;
 fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
@@ -99,13 +100,14 @@ fi
 echo "==> 驗證 package.json"
 manifest="$(node - package.json <<'NODE'
 const fs = require('fs');
+const die = (message) => { console.error(message); process.exit(1); };
 const pkg = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 for (const key of ['name', 'displayName', 'publisher', 'version', 'license', 'icon']) {
-  if (typeof pkg[key] !== 'string' || pkg[key].trim() === '') throw new Error(`package.json.${key} 必填`);
+  if (typeof pkg[key] !== 'string' || pkg[key].trim() === '') die(`package.json.${key} 必填`);
 }
-if (pkg.private === true) throw new Error('package.json.private 不得為 true');
-if (!pkg.engines || typeof pkg.engines.vscode !== 'string') throw new Error('package.json.engines.vscode 必填');
-if (!/^\d+\.\d+\.\d+$/.test(pkg.version)) throw new Error(`不支援的 SemVer：${pkg.version}`);
+if (pkg.private === true) die('package.json.private 不得為 true');
+if (!pkg.engines || typeof pkg.engines.vscode !== 'string') die('package.json.engines.vscode 必填');
+if (!/^\d+\.\d+\.\d+$/.test(pkg.version)) die(`不支援的 SemVer：${pkg.version}`);
 console.log(JSON.stringify({name: pkg.name, publisher: pkg.publisher, version: pkg.version}));
 NODE
 )" || fail "package.json 未通過驗證"
