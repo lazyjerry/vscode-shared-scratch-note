@@ -4,6 +4,24 @@
 
 ## [Unreleased]
 
+### Added
+
+- 重新加入 Panel 中的 **Note** 分頁與其 Webview 編輯器，回到 0.0.1 的操作方式。
+- 重新加入 Webview 的 Markdown 快捷鍵：列點延續、Tab／Shift+Tab 縮排、`Cmd/Ctrl+B`／`I`／`K`、選取文字後貼上 URL 建立連結。
+
+### Changed
+
+- 自動存檔與多視窗同步改回由擴充套件自行處理（150ms debounce 寫入、200ms 檔案輪詢），不再依賴 VS Code 的編輯器事件與檔案變更偵測。
+
+### Removed
+
+- 以原生 `TextEditor` 開啟筆記的行為。`Shared Scratch Note: Open` 改為聚焦 Panel 中的 Note 分頁。
+
+### Known issues
+
+- 筆記不是 `TextDocument`，因此 inline completion、Copilot Chat 的 `#file`／`#selection` 等編輯器層級的 AI 上下文取不到內容。具備檔案系統存取的 AI agent 仍可依絕對路徑讀寫 `shared-note.md`。
+- Panel 有未寫入磁碟的輸入時，若 AI 同時直接改寫該檔案，兩邊會互相覆蓋。
+
 ## [0.0.2] - 2026-08-04
 
 ### Changed

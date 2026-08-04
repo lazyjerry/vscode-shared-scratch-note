@@ -1,5 +1,6 @@
 node_modules/
 out/
+media/main.js
 .vscode-test/
 *.vsix
 *.log
