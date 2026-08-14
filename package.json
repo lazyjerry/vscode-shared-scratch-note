@@ -2,7 +2,7 @@
   "name": "shared-scratch-note",
   "displayName": "Shared Scratch Note",
   "description": "A shared Markdown scratch note in the VS Code Panel.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "workjerry",
   "license": "Apache-2.0",
   "icon": "resources/icon.png",
