@@ -18,3 +18,5 @@ resources/icon.svg
 out/test/**
 out/src/webview/**
 out/**/*.map
+**/*衝突的複本*
+**/*conflicted copy*
