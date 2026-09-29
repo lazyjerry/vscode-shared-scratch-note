@@ -21,7 +21,8 @@ npm run check      # lint + test，發布前的完整驗證
 | 路徑 | 用途 |
 |------|------|
 | `src/extension.ts` | 啟動、`sharedScratchNote.open` 指令、自動存檔 |
-| `src/noteStorage.ts` | 筆記檔案位置與建立 |
+| `src/noteStorage.ts` | 筆記檔案讀寫、自動存檔、多視窗同步與衝突偵測 |
+| `src/noteViewProvider.ts` | Panel Webview 與工具列動作（Refresh／Save／Export） |
 | `test/unit/` | 不需要 VS Code 的純函式測試（mocha） |
 | `test/integration/` | 在 Extension Development Host 中執行的測試 |
 

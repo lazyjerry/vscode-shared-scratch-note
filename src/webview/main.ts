@@ -15,9 +15,19 @@ declare function acquireVsCodeApi(): VsCodeApi;
 
 const vscode = acquireVsCodeApi();
 const note = document.querySelector<HTMLTextAreaElement>('#note');
+const conflictWarning = document.querySelector<HTMLElement>('#conflict-warning');
 
-if (!note) {
-  throw new Error('Shared Scratch Note textarea was not found.');
+if (!note || !conflictWarning) {
+  throw new Error('Shared Scratch Note elements were not found.');
+}
+
+for (const action of ['refresh', 'save', 'export'] as const) {
+  document.querySelector<HTMLButtonElement>(`#${action}`)?.addEventListener('click', () => {
+    vscode.postMessage({ type: action });
+    if (action !== 'export') {
+      note.focus();
+    }
+  });
 }
 
 note.addEventListener('input', () => {
@@ -71,6 +81,11 @@ note.addEventListener('paste', (event) => {
 });
 
 window.addEventListener('message', (event: MessageEvent<unknown>) => {
+  if (isConflictMessage(event.data)) {
+    conflictWarning.hidden = !event.data.conflict;
+    return;
+  }
+
   if (!isContentMessage(event.data) || event.data.content === note.value) {
     return;
   }
@@ -96,4 +111,13 @@ function isContentMessage(value: unknown): value is { type: 'content'; content: 
 
   const message = value as { type?: unknown; content?: unknown };
   return message.type === 'content' && typeof message.content === 'string';
+}
+
+function isConflictMessage(value: unknown): value is { type: 'conflict'; conflict: boolean } {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const message = value as { type?: unknown; conflict?: unknown };
+  return message.type === 'conflict' && typeof message.conflict === 'boolean';
 }
