@@ -18,7 +18,7 @@ const note = document.querySelector<HTMLTextAreaElement>('#note');
 const conflictWarning = document.querySelector<HTMLElement>('#conflict-warning');
 
 if (!note || !conflictWarning) {
-  throw new Error('Shared Scratch Note elements were not found.');
+  throw new Error('Nooote elements were not found.');
 }
 
 for (const action of ['refresh', 'save', 'export'] as const) {

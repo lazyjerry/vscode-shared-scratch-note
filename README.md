@@ -1,4 +1,4 @@
-# Shared Scratch Note
+# Nooote
 
 在 VS Code Panel 中提供一份跨專案共用的 Markdown 暫記。內容自動保存在目前 VS Code Profile 的擴充套件全域儲存，不會寫入任何工作區，也不會出現在 Git 變更裡。
 
@@ -16,7 +16,7 @@
 
 ## 使用方式
 
-安裝後，在底部 Panel 選擇 **Note**，或從 Command Palette 執行 **Shared Scratch Note: Open**。如果已將 VS Code Panel 移到側邊，筆記會沿用該位置。
+安裝後，在底部 Panel 選擇 **Note**，或從 Command Palette 執行 **Nooote: Open**。如果已將 VS Code Panel 移到側邊，筆記會沿用該位置。
 
 ## AI 工具支援
 

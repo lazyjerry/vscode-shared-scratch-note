@@ -1,6 +1,6 @@
 # Changelog
 
-本檔案記錄 Shared Scratch Note 的版本變更，格式依循 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.1.0/)，版本號依循 [Semantic Versioning](https://semver.org/lang/zh-TW/)。
+本檔案記錄 Nooote 的版本變更，格式依循 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.1.0/)，版本號依循 [Semantic Versioning](https://semver.org/lang/zh-TW/)。
 
 ## [Unreleased]
 
@@ -15,6 +15,7 @@
 
 - 多視窗或 AI 同時修改時，不再由最後完成寫入者直接覆蓋，改為提示衝突由使用者決定。
 - 寫檔改為先寫暫存檔再 rename，其他視窗不會讀到寫到一半的內容。
+- 顯示名稱由 Shared Scratch Note 改為 **Nooote**，指令改為 `Nooote: Open`。Extension ID `workjerry.shared-scratch-note` 不變，既有筆記與快捷鍵綁定照常沿用。
 
 ### Fixed
 

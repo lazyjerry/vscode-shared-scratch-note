@@ -1,6 +1,6 @@
 {
   "name": "shared-scratch-note",
-  "displayName": "Shared Scratch Note",
+  "displayName": "Nooote",
   "description": "A shared Markdown scratch note in the VS Code Panel.",
   "version": "0.2.0",
   "publisher": "workjerry",
@@ -34,7 +34,7 @@
     "commands": [
       {
         "command": "sharedScratchNote.open",
-        "title": "Shared Scratch Note: Open"
+        "title": "Nooote: Open"
       }
     ],
     "viewsContainers": {
@@ -51,10 +51,10 @@
         {
           "type": "webview",
           "id": "sharedScratchNote.note",
-          "name": "Shared Scratch Note",
+          "name": "Nooote",
           "visibility": "visible",
           "icon": "resources/note.svg",
-          "contextualTitle": "Shared Scratch Note"
+          "contextualTitle": "Nooote"
         }
       ]
     }

@@ -15,7 +15,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
 
   const provider = new NoteViewProvider(context.extensionUri, storage);
   const errorSubscription = storage.onDidError((error) => {
-    void vscode.window.showErrorMessage(`Shared Scratch Note could not save: ${error.message}`);
+    void vscode.window.showErrorMessage(`Nooote could not save: ${error.message}`);
   });
 
   context.subscriptions.push(

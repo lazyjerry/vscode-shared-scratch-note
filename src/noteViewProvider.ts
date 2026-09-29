@@ -118,7 +118,7 @@ export class NoteViewProvider implements vscode.WebviewViewProvider, vscode.Disp
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
   <link rel="stylesheet" href="${styleUri}">
-  <title>Shared Scratch Note</title>
+  <title>Nooote</title>
 </head>
 <body>
   <div class="toolbar" role="toolbar" aria-label="Shared scratch note actions">
@@ -139,7 +139,7 @@ export class NoteViewProvider implements vscode.WebviewViewProvider, vscode.Disp
 
 function showError(error: unknown): void {
   const message = error instanceof Error ? error.message : String(error);
-  void vscode.window.showErrorMessage(`Shared Scratch Note: ${message}`);
+  void vscode.window.showErrorMessage(`Nooote: ${message}`);
 }
 
 function createNonce(): string {

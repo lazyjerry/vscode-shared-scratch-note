@@ -1,7 +1,7 @@
 import * as assert from 'node:assert/strict';
 import * as vscode from 'vscode';
 
-suite('Shared Scratch Note extension', () => {
+suite('Nooote extension', () => {
   test('activates and registers its Panel view and open command', async () => {
     const extension = vscode.extensions.getExtension('workjerry.shared-scratch-note');
     assert.ok(extension);
