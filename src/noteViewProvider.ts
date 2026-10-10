@@ -49,7 +49,7 @@ export class NoteViewProvider implements vscode.WebviewViewProvider, vscode.Disp
           }
           return;
         case 'refresh':
-          void this.storage.reloadShared().catch(showError);
+          void this.refresh().catch(showError);
           return;
         case 'save':
           void this.save().catch(showError);
@@ -72,6 +72,16 @@ export class NoteViewProvider implements vscode.WebviewViewProvider, vscode.Disp
       subscription.dispose();
     }
     this.view = undefined;
+  }
+
+  private async refresh(): Promise<void> {
+    // Without a conflict, auto-save keeps this window and the shared note in sync both ways.
+    if (!this.storage.hasConflict()) {
+      void vscode.window.showInformationMessage('Nooote: The note is already in sync with the shared note.');
+      return;
+    }
+
+    await this.storage.reloadShared();
   }
 
   private async save(): Promise<void> {
@@ -122,15 +132,28 @@ export class NoteViewProvider implements vscode.WebviewViewProvider, vscode.Disp
 </head>
 <body>
   <div class="toolbar" role="toolbar" aria-label="Shared scratch note actions">
-    <button type="button" id="refresh" title="Discard the content in this window and load the shared note">Refresh</button>
+    <button type="button" id="refresh" class="icon-button" aria-disabled="true" aria-label="Refresh" title="Already in sync with the shared note">${icon('M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7')}</button>
     <span id="conflict-warning" class="warning" role="alert" hidden>
       ⚠ The shared note was changed elsewhere, so auto-save is paused. Refresh loads the shared version and discards this window's edits; Save overwrites the shared version.
     </span>
     <span class="spacer"></span>
-    <button type="button" id="save" title="Write the content in this window to the shared note now">Save</button>
-    <button type="button" id="export" title="Open the content in this window as a new unsaved editor">Export</button>
+    <div class="find" role="search">
+      <input type="text" id="find" aria-label="Find" placeholder="Find" spellcheck="false">
+      <span id="find-count" class="find-count" aria-live="polite"></span>
+      <button type="button" id="match-case" class="icon-button text-icon" aria-pressed="false" aria-label="Match Case" title="Match Case">Aa</button>
+      <button type="button" id="find-previous" class="icon-button" aria-label="Previous Match" title="Previous Match (Shift+Enter)">${icon('M12 19V5M6 11l6-6 6 6')}</button>
+      <button type="button" id="find-next" class="icon-button" aria-label="Next Match" title="Next Match (Enter)">${icon('M12 5v14M6 13l6 6 6-6')}</button>
+      <input type="text" id="replace" aria-label="Replace" placeholder="Replace" spellcheck="false">
+      <button type="button" id="replace-one" class="icon-button" aria-label="Replace" title="Replace (Enter)">${icon('M4 7h12m-3-3 3 3-3 3M20 17H8m3-3-3 3 3 3')}</button>
+      <button type="button" id="replace-all" class="icon-button" aria-label="Replace All" title="Replace All (Ctrl/Cmd+Enter)">${icon('M3 6h11m-3-3 3 3-3 3M3 15h11m-3-3 3 3-3 3M19 4v16M3 20h11')}</button>
+    </div>
+    <button type="button" id="save" class="icon-button" aria-label="Save" title="Write the content in this window to the shared note now">${icon('M5 3h11l3 3v15H5zM8 3v5h7V3M8 21v-7h8v7')}</button>
+    <button type="button" id="export" class="icon-button" aria-label="Export" title="Open the content in this window as a new unsaved editor">${icon('M14 4h6v6M20 4l-9 9M18 14v6H4V6h6')}</button>
   </div>
-  <textarea id="note" aria-label="Shared scratch note" placeholder="Write a Markdown note…" spellcheck="true"></textarea>
+  <div class="editor">
+    <div id="highlights" class="highlights" aria-hidden="true"></div>
+    <textarea id="note" aria-label="Shared scratch note" placeholder="Write a Markdown note…" spellcheck="true"></textarea>
+  </div>
   <script nonce="${nonce}" src="${scriptUri}"></script>
 </body>
 </html>`;
@@ -140,6 +163,10 @@ export class NoteViewProvider implements vscode.WebviewViewProvider, vscode.Disp
 function showError(error: unknown): void {
   const message = error instanceof Error ? error.message : String(error);
   void vscode.window.showErrorMessage(`Nooote: ${message}`);
+}
+
+function icon(path: string): string {
+  return `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="${path}"/></svg>`;
 }
 
 function createNonce(): string {

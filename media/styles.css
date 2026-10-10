@@ -68,6 +68,7 @@ body {
 }
 
 #note {
+  position: relative;
   box-sizing: border-box;
   flex: 1;
   width: 100%;
@@ -77,7 +78,7 @@ body {
   outline: 0;
   padding: 8px 10px;
   color: var(--vscode-editor-foreground);
-  background: var(--vscode-editor-background);
+  background: transparent;
   caret-color: var(--vscode-editorCursor-foreground);
   font-family: var(--vscode-editor-font-family);
   font-size: var(--vscode-editor-font-size);
@@ -93,4 +94,138 @@ body {
 #note:focus-visible {
   outline: 1px solid var(--vscode-focusBorder);
   outline-offset: -1px;
+}
+
+.toolbar .icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  color: var(--vscode-icon-foreground, inherit);
+  background: transparent;
+}
+
+.toolbar .icon-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.toolbar .icon-button:hover {
+  background: var(--vscode-toolbar-hoverBackground);
+}
+
+.toolbar .icon-button[aria-disabled='true'] {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.toolbar .icon-button[aria-disabled='true']:hover {
+  background: transparent;
+}
+
+.toolbar .icon-button.text-icon {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.toolbar .icon-button[aria-pressed='true'] {
+  color: var(--vscode-inputOption-activeForeground, inherit);
+  background: var(--vscode-inputOption-activeBackground);
+  outline: 1px solid var(--vscode-inputOption-activeBorder, transparent);
+  outline-offset: -1px;
+}
+
+.find {
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  min-width: 0;
+  align-items: center;
+  gap: 2px;
+  margin-right: 6px;
+}
+
+.find input {
+  box-sizing: border-box;
+  width: 10rem;
+  height: 22px;
+  padding: 0 4px;
+  border: 1px solid var(--vscode-input-border, transparent);
+  border-radius: 2px;
+  color: var(--vscode-input-foreground);
+  background: var(--vscode-input-background);
+  font: inherit;
+}
+
+.find input::placeholder {
+  color: var(--vscode-input-placeholderForeground);
+}
+
+.find input:focus {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: -1px;
+}
+
+.find #replace {
+  margin-left: 4px;
+}
+
+.find-count {
+  min-width: 4.5rem;
+  padding: 0 2px;
+  color: var(--vscode-descriptionForeground);
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+.editor {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  background: var(--vscode-editor-background);
+}
+
+/* Mirrors the textarea's text layout so each mark sits under the matching text. */
+.highlights {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 8px 10px;
+  color: transparent;
+  font-family: var(--vscode-editor-font-family);
+  font-size: var(--vscode-editor-font-size);
+  font-weight: var(--vscode-editor-font-weight);
+  line-height: 1.5;
+  tab-size: 2;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  pointer-events: none;
+}
+
+.highlights[hidden] {
+  display: none;
+}
+
+.highlights mark {
+  color: transparent;
+  background: var(--vscode-editor-findMatchHighlightBackground);
+  border-radius: 2px;
+}
+
+.highlights mark.current {
+  background: var(--vscode-editor-findMatchBackground);
+  outline: 1px solid var(--vscode-editor-findMatchBorder, transparent);
+}
+
+/* Set explicitly so the textarea wraps exactly like the highlight layer. */
+#note {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 }

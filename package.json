@@ -1,8 +1,8 @@
 {
   "name": "shared-scratch-note",
   "displayName": "Nooote",
-  "description": "A shared Markdown scratch note in the VS Code Panel.",
-  "version": "0.2.0",
+  "description": "在 VS Code 底部面板放一份跨專案共用的 Markdown 暫記，多個視窗即時同步、自動保存，內容不寫入工作區。",
+  "version": "0.3.0",
   "publisher": "workjerry",
   "license": "Apache-2.0",
   "icon": "resources/icon.png",
@@ -41,7 +41,7 @@
       "panel": [
         {
           "id": "sharedScratchNote",
-          "title": "Note",
+          "title": "Nooote",
           "icon": "resources/note.svg"
         }
       ]
